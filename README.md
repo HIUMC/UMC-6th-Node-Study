@@ -3,9 +3,9 @@
 
 
 ### 📤 프로젝트 열기
-* 프로젝트를 하나 생성하고 IntelliJ에서 원격 저장소를 연결해줍니다
+* 프로젝트를 하나 생성하고 IntelliJ(다른 IDE여도 상관없음)에서 원격 저장소를 연결해줍니다
 * ```git init``` // 저장소 생성
-* ```git remote -v https://github.com/HIUMC/UMC-5th-Spring-Study.git```  //저장소 내 컴퓨터 <-> 원격 연결
+* ```git remote -v https://github.com/HIUMC/UMC-6th-Node-Study.git```  //저장소 내 컴퓨터 <-> 원격 연결
 * ```git pull origin main```
 * IntelliJ의 terminal에서 자신의 branch로 checkout을 해주세요
     * ```git checkout origin [본인 github 아이디]```  //브랜치 개념 모른다면 구글링. 자신만의 공간을 만든다고 생각하시면 됩니다.
@@ -70,7 +70,7 @@
 * 해당 주차의 강의를 듣거나 작업을 모두 끝냈다면, 프로젝트 변경 사항을 remote repository(github repository)에 push 합니다
     * ```git push origin [본인 github 아이디 브랜치 명]``` : git에 등록되어 있는 origin(github repository)에 있는 자신의 branch로 프로젝트의 변경 사항을 반영합니다
 * push를 완료했다면 스터디 repository에서 pull request를 진행합니다
-    * 링크: https://github.com/HIUMC/UMC-5th-Spring-Study/pulls
+    * 링크: https://github.com/HIUMC/UMC-6th-Node-Study/pulls
 * PR(Pull Request)시 메세지 제목은 다음과 같이 ```[이름/닉네임] 1주차 정리내용 제출.``` 라고 적은 후 ```create pull request``` 버튼을 눌러주세요
 * PR : ```base: [master]``` <- ```compare: [본인 github 아이디]```
 
