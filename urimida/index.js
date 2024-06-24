@@ -1,44 +1,40 @@
-// index.js
-
 import express from 'express';
-import { tempRouter } from './src/routes/temp.route.js';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import SwaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import { userRouter } from './src/routes/user.route.js';
 import { response } from './config/response.js';
 
+dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-const port = 3000;
+const swaggerDocument = YAML.load('./swagger/swagger.yaml');
+console.log('Swagger Document:', swaggerDocument); // 디버깅 로그 추가
 
-// router setting
-app.use('/temp', tempRouter);
+// Middleware
+app.use(express.urlencoded({ extended: false })); // Parses urlencoded bodies (simple objects)
+app.use(express.json()); // Parses JSON bodies
+app.use(cors()); // Enable CORS
+app.use(express.static('public')); // Serve static files from 'public' directory
 
-// error handling
+// Swagger UI setup
+app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(swaggerDocument));
+app.use('/user', userRouter);
+
+// Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send(err.stack);
+    res.locals.message = err.message;
+    res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; // Show error details in non-production environments
+    console.error("Error:", err); // Log the error for debugging
+    const status = err.data && err.data.status ? err.data.status : 500; // Default to 500 Internal Server Error
+    res.status(status).send(response(err.data)); // Send response based on the error data
 });
 
-app.listen(port, () => {
-		console.log(`Example app listening on port ${port}`);
-});
-// index.js
+const PORT = process.env.PORT || 3000;
+app.set('port', PORT);
 
-app.use((err, req, res, next) => {
-    // 템플릿 엔진 변수 설정
-    res.locals.message = err.message;   
-    // 개발환경이면 에러를 출력하고 아니면 출력하지 않기
-    res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; 
-    res.status(err.data.status).send(response(err.data));
-});
-
-app.use((req, res, next) => {
-    const err = new BaseError(status.NOT_FOUND);
-    next(err);
-});
-
-app.use((err, req, res, next) => {
-    // 템플릿 엔진 변수 설정
-    res.locals.message = err.message;   
-    // 개발환경이면 에러를 출력하고 아니면 출력하지 않기
-    res.locals.error = process.env.NODE_ENV !== 'production' ? err : {}; 
-    res.status(err.data.status).send(response(err.data));
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });

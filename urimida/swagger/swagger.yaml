@@ -1,0 +1,123 @@
+# swagger.yaml
+
+openapi: 3.0.0
+info:
+  title: UMC API
+  description: API documentation for UMC application
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Local server
+
+paths:
+  /stores:
+    post:
+      tags:
+        - Stores
+      summary: Add a store in a specific location
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Store A
+                location:
+                  type: string
+                  example: Seoul
+                category:
+                  type: string
+                  example: Restaurant
+      responses:
+        '200':
+          description: Store added successfully
+
+  /stores/{storeId}/reviews:
+    post:
+      tags:
+        - Stores
+      summary: Add a review to a store
+      parameters:
+        - name: storeId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: user123
+                body:
+                  type: string
+                  example: "Great place to eat!"
+                score:
+                  type: number
+                  example: 4.5
+      responses:
+        '200':
+          description: Review added successfully
+
+  /stores/{storeId}/missions:
+    post:
+      tags:
+        - Stores
+      summary: Add a mission to a store
+      parameters:
+        - name: storeId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Mission 1
+                description:
+                  type: string
+                  example: "Complete the challenge!"
+      responses:
+        '200':
+          description: Mission added successfully
+
+  /user-missions:
+    post:
+      tags:
+        - User Missions
+      summary: Start a mission challenge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: user123
+                missionId:
+                  type: string
+                  example: mission456
+      responses:
+        '200':
+          description: Mission challenge started successfully
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

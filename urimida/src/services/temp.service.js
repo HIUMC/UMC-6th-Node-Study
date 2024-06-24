@@ -5,9 +5,9 @@ import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 
 export function CheckFlag(flag){
-    if(flag == 1)
-        throw new BaseError(status.BAD_REQUEST);   // 에러 발생시키기!
-    else{
+    if(flag == 1) {
+        throw new BaseError({ message: 'Flag value is invalid.', status: status.BAD_REQUEST });
+    } else {
         return flagResponseDTO(flag);
     }
 }
