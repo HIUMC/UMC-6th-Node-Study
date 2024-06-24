@@ -9,6 +9,7 @@ import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import {reviewRouter} from './src/routes/review.route.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형�
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 app.use('/temp', tempRouter);
 app.use('/user', userRouter);
+app.use('/review', reviewRouter);
 
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);
