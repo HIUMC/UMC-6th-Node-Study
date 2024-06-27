@@ -1,0 +1,179 @@
+openapi: 3.0.0
+info:
+  title: UMC Study API
+  version: 1.0.0
+  description: UMC Study API with express, API 설명
+  
+paths:
+  /store/review/user:
+    post:
+      tags:
+        - Store
+      summary: 리뷰추가 
+      parameters:
+      - name: new_review
+        in: body
+        required: true
+        schema:
+          properties:
+            user_id:
+              type: int
+              description: 유저 아이디
+              example: 3
+            store_id:
+              type: int
+              description: 상점 아이디
+              example: 2
+            article:
+              type: string
+              description: 리뷰내용
+              example: 이 집은 맛집입니다
+            score:
+              type: float
+              description: 점수
+              example: 3.8
+      responses:
+        '200':
+          description: 리뷰 작성 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "article": "갈치조림 짱맛",
+                  "score": 4.1,
+                }
+                
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+  /store/mission:
+    post:
+      tags:
+        - Store
+      summary: 가게에 미션추가 
+      parameters:
+      - name: new_mission
+        in: body
+        required: true
+        schema:
+          properties:
+            store_id:
+              type: int
+              description: 상점 아이디
+              example: 2
+            reward:
+              type: int
+              description: 리워드 포인트
+              example: 30
+            mission_spec:
+              type: string
+              description: 미션 내용
+              example: 커피 2잔 먹기
+      responses:
+        '200':
+          description: 미션 추가 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  'reward' : 30,
+                  'mission_spec': '커피 2잔 마시기'
+                }
+                
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+  

@@ -9,7 +9,7 @@ import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import {reviewRouter} from './src/routes/review.route.js';
+import {storeRouter} from './src/routes/store.route.js';
 
 dotenv.config();
 
@@ -26,12 +26,12 @@ app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형�
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 app.use('/temp', tempRouter);
 app.use('/user', userRouter);
-app.use('/review', reviewRouter);
+app.use('/store', storeRouter);
 
-app.use((req, res, next) => {
-    const err = new BaseError(status.NOT_FOUND);
-    next(err);
-});
+// app.use((req, res, next) => {
+//     const err = new BaseError(status.NOT_FOUND);
+//     next(err);
+// });
 
 app.use((err, req, res, next) => {
     // 템플릿 엔진 변수 설정

@@ -26,3 +26,4 @@ export const joinUser = async (body) => {
         return signinResponseDTO(await getUser(joinUserData), await getUserPreferToUserID(joinUserData));
     }
 }
+
