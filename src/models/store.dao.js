@@ -1,7 +1,7 @@
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { insertReviewSql,existReview, getReviewID, insertMissionSql, getMissionId} from "./store.sql.js";
+import { insertReviewSql,existReview, getReviewID, insertMissionSql, getMissionId, getReviewByReviewId,getReviewByReviewIdAtFirst} from "./store.sql.js";
 
 export const pushReview = async (data) => {
     try{
@@ -9,7 +9,7 @@ export const pushReview = async (data) => {
         
         const [confirm] = await pool.query(existReview, [data.user_id, data.store_id]);
 
-        if(confirm[0].isExistStore){
+        if(confirm[0].isExistReview){
             conn.release();
             return -1;
         }
@@ -77,6 +77,25 @@ export const getMission = async(missionId) => {
     }
 
     catch(err){
+        throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const getPreviewReview = async (cursorId, size, storeId) => {
+    try {
+        const conn = await pool.getConnection();
+
+        if(cursorId == "undefined" || typeof cursorId == "undefined" || cursorId == null){
+            const [reviews] = await pool.query(getReviewByReviewIdAtFirst, [parseInt(storeId), parseInt(size)]);
+            conn.release();
+            return reviews;
+    
+        }else{
+            const [reviews] = await pool.query(getReviewByReviewId, [parseInt(storeId), parseInt(cursorId), parseInt(size)]);
+            conn.release();
+            return reviews;    
+        }
+    } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
 }

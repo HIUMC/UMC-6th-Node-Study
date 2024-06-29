@@ -22,7 +22,9 @@ export const status = {
 
     // article err
     ARTICLE_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "ARTICLE4001", "message": "게시글이 없습니다."},
-    REVIEW_ALREADY_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "ARTICLE4002", "message": "이미 리뷰를 작성하였습니다"}
+    REVIEW_ALREADY_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "ARTICLE4002", "message": "이미 리뷰를 작성하였습니다"},
     //email err
+
+    MISSION_ALREADY_EXITS: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "MISSION4001", "message": "이미 등록한 미션입니다."}
     
 };
