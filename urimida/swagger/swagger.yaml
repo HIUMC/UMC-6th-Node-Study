@@ -1,5 +1,3 @@
-# swagger.yaml
-
 openapi: 3.0.0
 info:
   title: UMC API
@@ -25,20 +23,19 @@ paths:
                 name:
                   type: string
                   example: Store A
-                location:
+                address:
                   type: string
                   example: Seoul
-                category:
-                  type: string
-                  example: Restaurant
       responses:
-        '200':
+        '201':
           description: Store added successfully
+        '400':
+          description: Bad Request
 
   /stores/{storeId}/reviews:
     post:
       tags:
-        - Stores
+        - Reviews
       summary: Add a review to a store
       parameters:
         - name: storeId
@@ -53,9 +50,9 @@ paths:
             schema:
               type: object
               properties:
-                userId:
+                memberId:
                   type: string
-                  example: user123
+                  example: member123
                 body:
                   type: string
                   example: "Great place to eat!"
@@ -63,13 +60,15 @@ paths:
                   type: number
                   example: 4.5
       responses:
-        '200':
+        '201':
           description: Review added successfully
+        '400':
+          description: Bad Request
 
   /stores/{storeId}/missions:
     post:
       tags:
-        - Stores
+        - Missions
       summary: Add a mission to a store
       parameters:
         - name: storeId
@@ -84,20 +83,26 @@ paths:
             schema:
               type: object
               properties:
-                title:
+                reward:
+                  type: number
+                  example: 100
+                deadline:
                   type: string
-                  example: Mission 1
-                description:
+                  format: date-time
+                  example: '2023-12-31T23:59:59Z'
+                missionSpec:
                   type: string
-                  example: "Complete the challenge!"
+                  example: "Complete the task within the deadline"
       responses:
-        '200':
+        '201':
           description: Mission added successfully
+        '400':
+          description: Bad Request
 
-  /user-missions:
+  /member-missions:
     post:
       tags:
-        - User Missions
+        - Member Missions
       summary: Start a mission challenge
       requestBody:
         required: true
@@ -106,15 +111,17 @@ paths:
             schema:
               type: object
               properties:
-                userId:
+                memberId:
                   type: string
-                  example: user123
+                  example: member123
                 missionId:
                   type: string
                   example: mission456
       responses:
-        '200':
+        '201':
           description: Mission challenge started successfully
+        '400':
+          description: Bad Request
 
 components:
   securitySchemes:
