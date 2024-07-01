@@ -1,6 +1,3 @@
-
-
-
 openapi: 3.0.0
 info:
   title: UMC Study API
@@ -8,60 +5,37 @@ info:
   description: UMC Study API with express, API 설명
   
 paths:
-  /user/signin:
+  /store/{storeId}/addreview:
     post:
       tags:
-        - User
-      summary: 회원가입
+        - Store
+      summary: 가게에 리뷰추가 
       parameters:
-        - name: signIn
+        - name: storeId
+          in: path
+          schema:
+            type: integer
+          required: true
+        - name: new_review
           in: body
           required: true
           schema:
             properties:
-              email:
+              user_id:
+                type: int
+                description: 유저 아이디
+                example: 3
+              article:
                 type: string
-                description: 유저 이메일
-                example: swaggerTest@mail.com
-              name:
-                type: string
-                description: 유저 이름
-                example: swagger
-              gender:
-                type: string
-                description: 유저 성별
-                example: M
-              birthYear:
-                type: integer
-                description: 생일 년도
-                example: 2000
-              birthMonth:
-                type: integer
-                description: 생일 월
-                example: 1
-              birthDay:
-                type: integer
-                description: 생일 일
-                example: 31
-              addr:
-                type: string
-                description: 주소
-                example: swagger Test address
-              specAddr:
-                type: string
-                description: 상세 주소
-                example: swagger Test specAddr
-              phone:
-                type: string
-                description: 전화 번호
-                example: 010-0000-0000
-              prefer:
-                type: array
-                description: 선호 카테고리 번호
-                example: [1, 3, 5]
+                description: 리뷰내용
+                example: 이 집은 맛집입니다
+              score:
+                type: float
+                description: 점수
+                example: 3.8
       responses:
         '200':
-          description: 회원 가입 성공!
+          description: 리뷰 작성 성공!
           schema:
             type: object
             properties:
@@ -80,9 +54,8 @@ paths:
               data:
                 type: object
                 example: {
-                  "email": "swaggerTest@mail.com",
-                  "name": "swagger",
-                  "preferCategory": ["한식","일식"]
+                  "article": "갈치조림 짱맛",
+                  "score": 4.1,
                 }
                 
         '400':
@@ -120,97 +93,186 @@ paths:
               message:
                 type: string
                 example: 서버 에러, 관리자에게 문의 바랍니다.
-  /user/mission:
-      post:
-        tags:
-          - User
-        summary: 미션추가 
-        parameters:
-          - name: new_mission_user
-            in: body
-            required: true
-            schema:
-              properties:
-                user_id:
-                  type: int
-                  description: 유저 아이디
-                  example: 3
-                mission_id:
-                  type: int
-                  description: 미션 아이디
-                  example: 2
-                status:
-                  type: string
-                  description: 진행상태
-                  example: 진행중
-        responses:
-          '200':
-            description: 유저 미션 추가 성공!
-            schema:
-              type: object
-              properties:
-                status:
-                  type: integer
-                  example: 200
-                isSuccess:
-                  type: boolean
-                  example: true
-                code:
-                  type: integer
-                  example: 2000
-                message:
-                  type: string
-                  example: "success!"
-                data:
-                  type: object
-                  example: {
-                    "user_id" : 3,
-                    "mission_id": 2,
-                  }
-                  
-          '400':
-            description: 잘못된 요청
-            schema:
-              type: object
-              properties:
-                status:
-                  type: integer
-                  example: 400
-                isSuccess:
-                  type: boolean
-                  example: false
-                code:
-                  type: integer
-                  example: COMMON001
-                message:
-                  type: string
-                  example: 잘못된 요청입니다
 
-          '500':
-            description: 서버 에러
-            schema:
-              type: object
-              properties:
-                status:
-                  type: integer
-                  example: 500
-                isSuccess:
-                  type: boolean
-                  example: false
-                code:
-                  type: integer
-                  example: COMMON000
-                message:
-                  type: string
-                  example: 서버 에러, 관리자에게 문의 바랍니다.
+  /store/{storeId}/mission:
+    post:
+      tags:
+        - Store
+      summary: 가게에 미션추가
+      parameters:
+        - name: storeId
+          in: path
+          schema:
+            type: integer
+          required: true
+        - name: new_mission
+          in: body
+          required: true
+          schema:
+            properties:
+              reward:
+                type: integer
+                description: 리워드 포인트
+                example: 30
+              mission_spec:
+                type: string
+                description: 미션 내용
+                example: 커피 2잔 먹기
+      responses:
+        '200':
+          description: 미션 추가 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: 
+                  reward: 30
+                  mission_spec: 커피 2잔 마시기
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
 
-  /user/{userId}/review:
+
+  # /{storeId}/mission:
+  #   post:
+  #     tags:
+  #       - Store
+  #     summary: 가게에 미션추가 
+  #     parameters:
+  #       - name: storeId
+  #         in: path
+  #         schema:
+  #           type: integer
+  #         required: true
+  #       - name: new_mission
+  #         in: body
+  #         required: true
+  #         schema:
+  #           properties:
+  #             store_id:
+  #               type: int
+  #               description: 상점 아이디
+  #               example: 2
+  #             reward:
+  #               type: int
+  #               description: 리워드 포인트
+  #               example: 30
+  #             mission_spec:
+  #               type: string
+  #               description: 미션 내용
+  #               example: 커피 2잔 먹기
+  #     responses:
+  #       '200':
+  #         description: 미션 추가 성공!
+  #         schema:
+  #           type: object
+  #           properties:
+  #             status:
+  #               type: integer
+  #               example: 200
+  #             isSuccess:
+  #               type: boolean
+  #               example: true
+  #             code:
+  #               type: integer
+  #               example: 2000
+  #             message:
+  #               type: string
+  #               example: "success!"
+  #             data:
+  #               type: object
+  #               example: {
+  #                 'reward' : 30,
+  #                 'mission_spec': '커피 2잔 마시기'
+  #               }
+                
+  #       '400':
+  #         description: 잘못된 요청
+  #         schema:
+  #           type: object
+  #           properties:
+  #             status:
+  #               type: integer
+  #               example: 400
+  #             isSuccess:
+  #               type: boolean
+  #               example: false
+  #             code:
+  #               type: integer
+  #               example: COMMON001
+  #             message:
+  #               type: string
+  #               example: 잘못된 요청입니다
+
+  #       '500':
+  #         description: 서버 에러
+  #         schema:
+  #           type: object
+  #           properties:
+  #             status:
+  #               type: integer
+  #               example: 500
+  #             isSuccess:
+  #               type: boolean
+  #               example: false
+  #             code:
+  #               type: integer
+  #               example: COMMON000
+  #             message:
+  #               type: string
+  #               example: 서버 에러, 관리자에게 문의 바랍니다.
+
+  /store/{storeId}/review:
     get:
       tags:
-        - User
-      summary: 사용자 리뷰 조회 로직
+        - Store
+      summary: 가게 별 리뷰 조회 로직
       parameters:
-        - name: userId
+        - name: storeId
           in: path
           schema:
             type: integer
@@ -248,118 +310,21 @@ paths:
                 type: string
                 example: "success!"
               data:
-                type: object
+                type: array
                 example: {
                   "reviewData": [
                     {
-                      "store_name": 정식당,
-                      "score": 20,
-                      "article": 리뷰1,
+                      "user_name": "SwaggerTest1",
+                      "score": 5,
+                      "article": "리뷰1",
                     },
                     {
-                      "store_name": 안식당,
+                      "user_name": "SwaggerTest2",
                       "score": 4.5,
-                      "article": 리뷰2,
+                      "article": "리뷰2",
                     }
                   ],
-                  "cursorId": 1,
-                }
-                
-        '400':
-          description: 잘못된 요청
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 400
-              isSuccess:
-                type: boolean
-                example: false
-              code:
-                type: integer
-                example: COMMON001
-              message:
-                type: string
-                example: 잘못된 요청입니다
-
-        '500':
-          description: 서버 에러
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 500
-              isSuccess:
-                type: boolean
-                example: false
-              code:
-                type: integer
-                example: COMMON000
-              message:
-                type: string
-                example: 서버 에러, 관리자에게 문의 바랍니다.
-
-  /user/{userId}/mission:
-    get:
-      tags:
-        - User
-      summary: 사용자 미션 조회 로직
-      parameters:
-        - name: userId
-          in: path
-          schema:
-            type: integer
-          required: true
-        - name: missionId
-          in: query
-          required: false
-          schema:
-            properties:
-              missionId:
-                type: integer
-        - name: paging
-          in: query
-          required: true
-          schema:
-            properties:
-              size:
-                type: integer
-      responses:
-        '200':
-          description: 리뷰 조회 성공
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 200
-              isSuccess:
-                type: boolean
-                example: true
-              code:
-                type: integer
-                example: 2000
-              message:
-                type: string
-                example: "success!"
-              data:
-                type: array
-                example: {
-                  "missionData": [
-                    {
-                      "store_name": 정식당,
-                      "mission_spec": 빵먹기,
-                      "reward": 30,
-                    },
-                    {
-                      "store_name": 안식당,
-                      "mission_spec": 밥먹기,
-                      "reward": 20,
-                    }
-                  ],
-                  "cursorId": 1,
+                  "cursorId": 1
                 }
                 
         '400':

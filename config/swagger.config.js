@@ -1,5 +1,3 @@
-// swagger.config.js
-
 import SwaggerJsdoc from "swagger-jsdoc";
 
 const options = {
@@ -9,13 +7,10 @@ const options = {
             version: '1.0.0',
             description: 'UMC Study API with express, API 설명'
         },
-        servers:[
-            {
-                url: 'http://localhost:3000',
-            },
-        ],
+        host: 'localhost:3000',
+        basepath: '../'
     },
-    apis: ['./routes/*.js', './swagger/*.yaml']
+    apis: ['./routes/*.js', './swagger/*']
 };
 
 export const specs = SwaggerJsdoc(options);

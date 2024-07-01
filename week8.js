@@ -12,14 +12,14 @@ import { status } from './config/response.status.js';
 import { BaseError } from './config/error.js'; 
 import { userRouter } from './routes/user.route.js';
 import { specs } from './config/swagger.config.js';
-
+import { storeRouter } from './routes/store.route.js';
 
 const app = express();
-const port = 3001;
+const port = 3000;
 const swaggerDocument = YAML.load('./swagger/user.swagger.yaml');
 app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(swaggerDocument));
 
-app.set('port', process.env.PORT || 3001)   // 서버 포트 지정
+app.set('port', process.env.PORT || 3000)   // 서버 포트 지정
 app.use(cors());                            // cors 방식 허용
 app.use(express.static('public'));          // 정적 파일 접근
 app.use(express.json());                    // request의 본문을 json으로 해석할 수 있도록 함 (JSON 형태의 요청 body를 파싱하기 위함)
@@ -28,6 +28,7 @@ app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs));
 // router setting
 app.use('/temp', tempRouter);
 app.use('/user', userRouter);
+app.use('/store',storeRouter);
 
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);
