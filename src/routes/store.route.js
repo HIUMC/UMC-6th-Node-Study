@@ -4,6 +4,6 @@ import {addNewReview, addNewMission, reviewPreview} from '../controllers/store.c
 
 export const storeRouter = express.Router({mergeParams : true});
 
-storeRouter.post('/:storeId/addreview', asyncHandler(addNewReview));
+storeRouter.post('/:storeId/review', asyncHandler(addNewReview));
 storeRouter.post('/:storeId/mission', asyncHandler(addNewMission));
 storeRouter.get('/:storeId/review', asyncHandler(reviewPreview));
